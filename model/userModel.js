@@ -14,7 +14,7 @@ password:{
 },
 role:{
     type:String,
-    enum: ['regular', 'manager'],
+    enum: ['regular', 'manager', 'admin'],
     default: 'regular'
 },
 
@@ -29,4 +29,4 @@ token:{type:Object,
 {timestamps:true})
 
 
-module.exports = mongoose.model("USer",userSchema)
+module.exports = mongoose.model("User",userSchema)
