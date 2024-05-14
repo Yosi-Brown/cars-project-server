@@ -1,48 +1,51 @@
-const Mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const UserModel = require("../model/userModel");
 const { hash, compare } = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const userModel = require("../model/userModel");
 
 module.exports = {
   checkToken: async (req, res) => {
     try {
       const token = req.cookies.token;
+
       if (!token) throw new Error("must log in for this action");
-      const validToken = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+
+      const validToken = jwt.verify(token, process.env.JWT_SECRET);
+
       if (!validToken) throw new Error("token is not valid");
+
       return res.status(200).json({
-        message: "",
+        message: "You have a valid token",
         success: true,
       });
     } catch (error) {
-      console.log('test')
       return res.status(500).json({
-        message: "",
+        message: error.message,
         success: false,
-        // error: error.message,
       });
     }
   },
+
   registerUser: async (req, res) => {
     try {
       const { email, password } = req.body;
-      if (!email && !password) throw new Error("input not valid");
+      if (!email || !password) throw new Error("input not valid");
 
       const registerReq = UserModel(req.body);
       const hashPass = await hash(password, 10);
 
       registerReq.password = hashPass;
-      registerReq.role = "regular";
+      // registerReq.role = "regular";
 
       await registerReq.save();
+
       return res.status(200).json({
-        message: "successfully to register user",
+        message: "New user registered",
         success: true,
       });
     } catch (error) {
       return res.status(500).json({
-        message: "not successfully to register user",
+        message: "New user did not register successfully",
         success: false,
         error: error.message,
       });
@@ -52,13 +55,14 @@ module.exports = {
   loginUser: async (req, res) => {
     try {
       const { email, password } = req.body;
-      if (!email || !password) throw new Error("input not valid");
+      if (!email || !password)
+        throw new Error("You must enter an email and password");
 
       const loginUser = await UserModel.findOne({ email });
-      if (!loginUser) throw new Error("user not exist");
+      if (!loginUser) throw new Error("user dose not exist");
 
       const match = await compare(password, loginUser.password);
-      if (!match) throw new Error("password not match");
+      if (!match) throw new Error("Wrong password!!");
 
       if (!req.cookies.token) {
         const payload = { id: loginUser._id, role: loginUser.role };
@@ -69,14 +73,14 @@ module.exports = {
           maxAge: 1000 * 60 * 60 * 3,
           httpOnly: true,
         });
+        // else {
+        //   const validToken = jwt.verify(
+        //     req.cookies.token,
+        //     process.env.JWT_SECRET
+        //   );
+        //   if(!validToken)
+        // }
       }
-      // else {
-      //   const validToken = jwt.verify(
-      //     req.cookies.token,
-      //     process.env.JWT_SECRET
-      //   );
-      //   if(!validToken)
-      // }
       return res.status(200).json({
         message: "successfully to login user",
         success: true,
