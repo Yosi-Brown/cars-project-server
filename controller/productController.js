@@ -6,7 +6,8 @@ module.exports = {
     try {
       // console.log(req)
       const car = req.body;
-      console.log(car);
+      const imgCar = car.image
+      console.log(imgCar);
       // const singleCar = ProductModel(car);
       // await singleCar.save();
       return res.status(200).json({
