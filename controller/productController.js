@@ -32,4 +32,20 @@ module.exports = {
       });
     }
   },
+  getAllProducts: async (req,res) => {
+    try {
+      const products = await ProductModel.find()
+      return res.status(200).json({
+        message: "successfully to get all products",
+        success: true,
+        products: products
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "not successfully to get all products",
+        error: error.message,
+        success: false,
+      })
+    }
+  }
 };
