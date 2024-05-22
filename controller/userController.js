@@ -28,14 +28,17 @@ module.exports = {
 
   registerUser: async (req, res) => {
     try {
-      const { email, password } = req.body;
+      console.log(req.body)
+      const { email, password, confirmPassword } = req.body;
       if (!email || !password) throw new Error("input not valid");
 
+      // if(password != confirmPassword) throw new Error('passwords is not compare')
       const registerReq = UserModel(req.body);
+      console.log(registerReq)
       const hashPass = await hash(password, 10);
 
       registerReq.password = hashPass;
-      // registerReq.role = "regular";
+      registerReq.role = "regular";
 
       await registerReq.save();
 
@@ -94,4 +97,18 @@ module.exports = {
       });
     }
   },
+  logOut: async(req,res) =>{
+    try {
+      res.clearCookie('token')
+      return res.status(200).json({
+        message: "Token cleared",
+        success: true,})
+    } catch (error) {
+      console.log('Token not cleared')
+      return res.status(500).json({
+        message: error.message,
+        success: false,
+      });
+    }
+  }
 };
