@@ -70,16 +70,21 @@ module.exports = {
     }
   },
   updateProduct: async (req, res) =>{
+// console.log("יוסי הגבר")
+
     try {
       const { id } = req.params;
+      console.log(id)
+      console.log(req.body)
       const updatedData = req.body;
-    const updatedProduct = await ProductModel.findByIdAndUpdate(id, updatedData, { new: true });
-      if (!updatedProduct) throw new Error('Product not found')
+    const updatedProduct = await ProductModel.findByIdAndUpdate(id, updatedData);
+    // console.log(updatedData)
+      // if (!updatedProduct) throw new Error('Product not found')
   
       return res.status(200).json({
         success: true,
         message: 'Product updated successfully',
-        product: updatedProduct
+        // product: updatedProduct
       });
     } catch (error) {
       return res.status(500).json({
