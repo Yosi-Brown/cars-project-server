@@ -8,23 +8,30 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
 });
 
+const missingImage = 'https://res.cloudinary.com/dokz0knrk/image/upload/v1716299631/ramjufxdpbceih9dxicj.png'
+
 module.exports = {
   addProduct: async (req, res) => {
     try {
       if (req.file) {
         const uploadImage = await cloudinary.uploader.upload(req.file.path)
-        console.log(uploadImage.url);
+        // console.log(uploadImage.url);
         req.body.image = uploadImage.url
       }
+      else{req.body.image_link = missingImage}
 
       const car = req.body;
-      console.log(car);
+      const data = new ProductModel(car);
+      console.log(data)
+      await data.save()
+      
+      
       return res.status(200).json({
         message: "successfully to push products",
         success: true,
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return res.status(500).json({
         message: "not successfully to push products",
         error: error.message,
@@ -32,6 +39,7 @@ module.exports = {
       });
     }
   },
+
   getAllProducts: async (req,res) => {
     try {
       const products = await ProductModel.find()
@@ -48,6 +56,7 @@ module.exports = {
       })
     }
   },
+
   deleteProduct: async (req, res) => {
     try {
       const { id } = req.params;
@@ -69,9 +78,8 @@ module.exports = {
       });
     }
   },
-  updateProduct: async (req, res) =>{
-// console.log("יוסי הגבר")
 
+  updateProduct: async (req, res) =>{
     try {
       const { id } = req.params;
       console.log(id)
