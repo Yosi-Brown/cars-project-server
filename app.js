@@ -20,11 +20,13 @@ app.use(
 //import routers
 const userRouter = require("./router/userRouter");
 const productRouter = require("./router/productRouter");
+const ordersRouter = require("./router/ordersRouter")
 const { pushToDb } = require("./dataBase/API/createAPI");
 
 
 app.use("/users", userRouter);
 app.use("/products", productRouter);
+app.use("/orders",ordersRouter)
 app.use("/pushAPI", pushToDb);
 
 const port = process.env.PORT;
