@@ -11,7 +11,7 @@ const productSchema = mongoose.Schema({
     },
     engine_displacement_cc: {
       type: Number,
-      default: null
+      default: null,
       // required: true,
     },
     horsepower: {
@@ -20,11 +20,11 @@ const productSchema = mongoose.Schema({
     },
     seats: {
       type: Number,
-      required: true,
+      // required: true,
     },
     colors: [{
       type: String,
-      required: true,
+      // required: true,
     }],
     engine_type: {
       type: String,
@@ -36,7 +36,7 @@ const productSchema = mongoose.Schema({
     },
     year: {
       type: String,
-      required: true,
+      // required: true,
     },
     price: {
       type: String,
