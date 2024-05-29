@@ -3,6 +3,7 @@ const UserModel = require("../model/userModel");
 const { hash, compare } = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+
 module.exports = {
   checkToken: async (req, res) => {
     try {
@@ -97,6 +98,7 @@ module.exports = {
       });
     }
   },
+
   logOut: async(req,res) =>{
     try {
       res.clearCookie('token')
@@ -109,6 +111,66 @@ module.exports = {
         message: error.message,
         success: false,
       });
+    }
+  },
+
+  getAllUsers: async(req,res) =>{
+    try {
+      const users = await UserModel.find()
+      return res.status(200).json({
+        message: "successfully to get all Users",
+        success: true,
+        users: users
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "not successfully to get all Users",
+        error: error.message,
+        success: false,
+      })
+    }
+  },
+
+  deleteUser: async(req, res) => {
+    try {
+      const { id } = req.params;
+      const deleteUser = await UserModel.findByIdAndDelete(id);
+      console.log(deleteUser)
+
+      if (!deleteUser) {throw new Error("User not found")}
+
+
+      return res.status(200).json({
+        message: "User deleted successfully",
+        success: true,
+      });
+    } catch (error) {
+      console.log('test',id)
+      return res.status(500).json({
+        message: "Failed to delete User",
+        error: error.message,
+        success: false,
+      });
+    }
+  },
+
+  updateRole: async(req, res) =>{
+    try {
+      const {id, newRole:role } = (req.body)
+      console.log(role)
+      const updateRole = await UserModel.findByIdAndUpdate(id, {role})
+      // console.log(updateRole)
+      return res.status(200).json({
+        message: "role updated successfully",
+        success: true,
+      })
+
+    } catch (error) {
+      console.log(error)
+      return res.status(200).json({
+        message: "role note updated",
+        success: false,
+      })
     }
   }
 };
