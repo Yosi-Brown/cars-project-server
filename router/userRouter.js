@@ -3,14 +3,18 @@ const {
   loginUser,
   registerUser,
   checkToken,
-  logOut
+  logOut,
+  getAllUsers,
+  deleteUser,
+  updateRole
 } = require("../controller/userController");
 
 router.get("/auth", checkToken);
 router.get("/logout", logOut);
-// router.get('/login', loginUser)
+router.get("/getall", getAllUsers)
+router.delete("/delete/:id", deleteUser)
+router.put("/update-role", updateRole)
 
-// router.get('/', test)
 
 router.post("/login", loginUser);
 router.post("/register", registerUser);
