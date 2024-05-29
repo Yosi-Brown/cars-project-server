@@ -16,11 +16,11 @@ const orderSchema = mongoose.Schema(
           type: mongoose.Types.ObjectId,
           ref: "Products",
         },
-        RTP: {
-          type: Number,
-          required: true,
-          min: 1,
-        },
+        // RTP: {
+        //   type: Number,
+        //   required: true,
+        //   min: 1,
+        // },
         quantity: {
           type: Number,
           required: true,
@@ -31,7 +31,7 @@ const orderSchema = mongoose.Schema(
     status: {
       type: Number,
       default: 1,
-      min: [1, "minimom 1"],
+      min: [1, "minimum 1"],
       max: [4, "max 4"],
     },
   },

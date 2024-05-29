@@ -2,13 +2,13 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
+const logger = require("morgan");
 require("dotenv").config();
 require("./dataBase/mongo")();
 
 app.use(cookieParser());
 app.use(express.json());
-
+app.use(logger("dev"));
 app.use(
   cors({
     credentials: true,
@@ -20,7 +20,7 @@ app.use(
 //import routers
 const userRouter = require("./router/userRouter");
 const productRouter = require("./router/productRouter");
-const ordersRouter = require("./router/ordersRouter")
+const ordersRouter = require("./router/orderRouter")
 const { pushToDb } = require("./dataBase/API/createAPI");
 
 
