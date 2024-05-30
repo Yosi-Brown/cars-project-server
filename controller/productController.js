@@ -16,7 +16,7 @@ module.exports = {
       if (req.file) {
         const uploadImage = await cloudinary.uploader.upload(req.file.path)
         // console.log(uploadImage.url);
-        req.body.image = uploadImage.url
+        req.body.image_link = uploadImage.url
       }
       else{req.body.image_link = missingImage}
 
