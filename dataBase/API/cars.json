@@ -9,7 +9,7 @@
     "engine_type": "petrol",
     "car_type": "hatchback",
     "year": 2024,
-    "price": "25,000 USD",
+    "price": 25000,
     "image_link": "https://example.com/hyundai_i30.jpg"
   },
   {
@@ -22,7 +22,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2023,
-    "price": "28,000 USD",
+    "price": 28000,
     "image_link": "https://example.com/mazda_3.jpg"
   },
   {
@@ -35,7 +35,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2024,
-    "price": "28,000 USD",
+    "price": 28000,
     "image_link": "https://example.com/nissan_altima.jpg"
   },
   {
@@ -48,7 +48,7 @@
     "engine_type": "petrol",
     "car_type": "hatchback",
     "year": 2024,
-    "price": "3,000 USD0",
+    "price": 30000,
     "image_link": "https://example.com/honda_civic_hatchback.jpg"
   },
   {
@@ -61,7 +61,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2023,
-    "price": "3,000 USD0",
+    "price": 30000,
     "image_link": "https://example.com/hyundai_sonata.jpg"
   },
   {
@@ -74,7 +74,7 @@
     "engine_type": "petrol",
     "car_type": "hatchback",
     "year": 2024,
-    "price": "3,000 USD0",
+    "price": 30000,
     "image_link": "https://example.com/volkswagen_golf.jpg"
   },
   {
@@ -87,7 +87,7 @@
     "engine_type": "petrol",
     "car_type": "suv",
     "year": 2024,
-    "price": "35,000 USD",
+    "price": 35000,
     "image_link": "https://example.com/mazda_cx-5.jpg"
   },
   {
@@ -100,7 +100,7 @@
     "engine_type": "petrol",
     "car_type": "wagon",
     "year": 2023,
-    "price": "35,000 USD",
+    "price": 35000,
     "image_link": "https://example.com/subaru_outback.jpg"
   },
   {
@@ -113,7 +113,7 @@
     "engine_type": "hybrid",
     "car_type": "sedan",
     "year": 2023,
-    "price": "35,000 USD",
+    "price":  35000,
     "image_link": "https://example.com/toyota_corolla_hybrid.jpg"
   },
   {
@@ -126,7 +126,7 @@
     "engine_type": "hybrid",
     "car_type": "hatchback",
     "year": 2023,
-    "price": "35,000 USD",
+    "price":  35000,
     "image_link": "https://example.com/toyota_prius.jpg"
   },
   {
@@ -139,7 +139,7 @@
     "engine_type": "hybrid",
     "car_type": "suv",
     "year": 2024,
-    "price": "38,000 USD",
+    "price":  38000,
     "image_link": "https://example.com/kia_niro.jpg"
   },
   {
@@ -152,7 +152,7 @@
     "engine_type": "petrol",
     "car_type": "pickup truck",
     "year": 2023,
-    "price": "45,000 USD",
+    "price":  45000,
     "image_link": "https://example.com/ford_f-150.jpg"
   },
   {
@@ -165,7 +165,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2023,
-    "price": "45,000 USD",
+    "price":  45000,
     "image_link": "https://example.com/mercedes_c-class.jpg"
   },
   {
@@ -178,7 +178,7 @@
     "engine_type": "petrol",
     "car_type": "suv",
     "year": 2024,
-    "price": "5,000 USD0",
+    "price": 50000 ,
     "image_link": "https://example.com/audi_q5.jpg"
   },
   {
@@ -191,7 +191,7 @@
     "engine_type": "hybrid",
     "car_type": "suv",
     "year": 2024,
-    "price": "55,000 USD",
+    "price":  55000,
     "image_link": "https://example.com/lexus_rx.jpg"
   },
   {
@@ -204,7 +204,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2024,
-    "price": "95,000 USD",
+    "price":  95000,
     "image_link": "https://example.com/mazda_mazda3.jpg"
   },
   {
@@ -217,7 +217,7 @@
     "engine_type": "petrol",
     "car_type": "suv",
     "year": 2023,
-    "price": "11,000 USD0",
+    "price":  11000,
     "image_link": "https://example.com/kia_sportage.jpg"
   },
   {
@@ -230,7 +230,7 @@
     "engine_type": "petrol",
     "car_type": "suv",
     "year": 2024,
-    "price": "12,000 USD0",
+    "price":  12000,
     "image_link": "https://example.com/hyundai_tucson.jpg"
   },
   {
@@ -243,7 +243,7 @@
     "engine_type": "petrol",
     "car_type": "coupe",
     "year": 2023,
-    "price": "12,000 USD0",
+    "price":  12000,
     "image_link": "https://example.com/porsche_911.jpg"
   },
   {
@@ -256,7 +256,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2023,
-    "price": "21,000 USD0",
+    "price":  21000,
     "image_link": "https://example.com/audi_a6.jpg"
   },
   {
@@ -269,7 +269,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2024,
-    "price": "21,000 USD0",
+    "price":  21000,
     "image_link": "https://example.com/honda_accord.jpg"
   },
   {
@@ -282,7 +282,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2023,
-    "price": "22,000 USD0",
+    "price":  22000,
     "image_link": "https://example.com/bmw_5_series.jpg"
   },
   {
@@ -295,7 +295,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2024,
-    "price": "22,000 USD0",
+    "price":  22000,
     "image_link": "https://example.com/mazda_mazda6.jpg"
   },
   {
@@ -308,7 +308,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2024,
-    "price": "23,000 USD0",
+    "price":  23000,
     "image_link": "https://example.com/mercedes_e-class.jpg"
   },
   {
@@ -321,7 +321,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2024,
-    "price": "24,000 USD0",
+    "price":  24000,
     "image_link": "https://example.com/lexus_es.jpg"
   },
   {
@@ -334,7 +334,7 @@
     "engine_type": "petrol",
     "car_type": "SUV",
     "year": 2024,
-    "price": "125,000 USD USD",
+    "price":  125000,
     "image_link": "https://www.jeep.co.il/models/wrangler/"
   },
   {
@@ -347,7 +347,7 @@
     "engine_type": "diesel",
     "car_type": "SUV",
     "year": 2024,
-    "price": "165,000 USD",
+    "price":  165000,
     "image_link": "https://www.landrover.co.il/models/defender/"
   },
   {
@@ -360,7 +360,7 @@
     "engine_type": "hybrid",
     "car_type": "hatchback",
     "year": 2024,
-    "price": "25,000 USD",
+    "price":  25000,
     "image_link": "https://www.suzuki.co.il/models/swift/"
   },
   {
@@ -373,7 +373,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2024,
-    "price": "25,000 USD",
+    "price":  25000,
     "image_link": "https://www.toyota.com/corolla/"
   },
   {
@@ -386,7 +386,7 @@
     "engine_type": "petrol",
     "car_type": "hatchback",
     "year": 2024,
-    "price": "27,500 USD",
+    "price":  27500,
     "image_link": "https://www.kia.co.il/models/soul/"
   },
   {
@@ -399,7 +399,7 @@
     "engine_type": "petrol",
     "car_type": "hatchback",
     "year": 2024,
-    "price": "30,000 USD",
+    "price":  30000,
     "image_link": "https://www.peugeot.co.il/models/208/"
   },
   {
@@ -412,7 +412,7 @@
     "engine_type": "petrol",
     "car_type": "sedan",
     "year": 2024,
-    "price": "30,000 USD",
+    "price":  30000,
     "image_link": "https://www.toyota.com/camry/"
   },
   {
@@ -425,7 +425,7 @@
     "engine_type": "electric",
     "car_type": "Hatchback",
     "year": 2024,
-    "price": "33,000 USD",
+    "price":  33000,
     "image_link": "https://www.chevrolet.com/electric-vehicles/bolt-ev"
   },
   {
@@ -438,7 +438,7 @@
     "engine_type": "petrol",
     "car_type": "small SUV",
     "year": 2024,
-    "price": "33,000 USD",
+    "price":  33000,
     "image_link": "https://www.mg-motor.co.il/models/zs/"
   },
   {
@@ -451,7 +451,7 @@
     "engine_type": "hybrid",
     "car_type": "SUV",
     "year": 2024,
-    "price": "35,000 USD",
+    "price":  35000,
     "image_link": "https://www.honda.com/cr-v/"
   },
   {
@@ -464,7 +464,7 @@
     "engine_type": "electric",
     "car_type": "Small SUV",
     "year": 2024,
-    "price": "35,000 USD",
+    "price":  35000,
     "image_link": "https://www.hyundai.com/us/en/vehicles/kona-electric"
   },
   {
@@ -477,7 +477,7 @@
     "engine_type": "electric",
     "car_type": "Electric Hatchback",
     "year": 2024,
-    "price": "38,000 USD",
+    "price":  38000,
     "image_link": "https://www.nissanusa.com/vehicles/new-leaf/"
   },
   {
@@ -490,7 +490,7 @@
     "engine_type": "petrol",
     "car_type": "SUV",
     "year": 2024,
-    "price": "40,000 USD",
+    "price":  40000,
     "image_link": "https://www.ford.com/suvs/explorer/"
   },
   {
@@ -503,7 +503,7 @@
     "engine_type": "hybrid",
     "car_type": "Minivan",
     "year": 2024,
-    "price": "40,000 USD",
+    "price":  40000,
     "image_link": "https://www.toyota.com/sienna/"
   },
   {
@@ -516,7 +516,7 @@
     "engine_type": "hybrid",
     "car_type": "Minivan",
     "year": 2024,
-    "price": "42,000 USD",
+    "price":  42000,
     "image_link": "https://www.chrysler.com/pacifica"
   },
   {
@@ -529,7 +529,7 @@
     "engine_type": "diesel",
     "car_type": "sedan",
     "year": 2024,
-    "price": "45,000 USD",
+    "price":  45000,
     "image_link": "https://www.bmw.com/en/index.html"
   },
   {
@@ -542,7 +542,7 @@
     "engine_type": "petrol",
     "car_type": "Full-size SUV",
     "year": 2024,
-    "price": "45,000 USD",
+    "price":  45000,
     "image_link": "https://www.kia.com/us/en/models/telluride"
   },
   {
@@ -555,7 +555,7 @@
     "engine_type": "electric",
     "car_type": "Luxury Sedan",
     "year": 2024,
-    "price": "48,000 USD",
+    "price":  48000,
     "image_link": "https://www.tesla.com/model3"
   },
   {
@@ -568,7 +568,7 @@
     "engine_type": "petrol",
     "car_type": "coupe",
     "year": 2023,
-    "price": "50,000 USD",
+    "price":  50000,
     "image_link": "https://www.chevrolet.com/camaro/"
   },
   {
@@ -581,7 +581,7 @@
     "engine_type": "petrol",
     "car_type": "Muscle Car",
     "year": 2024,
-    "price": "50,000 USD",
+    "price":  50000,
     "image_link": "https://www.ford.com/mustangs/models/coupe/"
   },
   {
@@ -594,7 +594,7 @@
     "engine_type": "petrol",
     "car_type": "Full-size SUV",
     "year": 2024,
-    "price": "52,000 USD",
+    "price":  52000,
     "image_link": "https://www.chevrolet.com/suvs/tahoe"
   },
   {
@@ -607,7 +607,7 @@
     "engine_type": "electric",
     "car_type": "SUV",
     "year": 2024,
-    "price": "52,000 USD",
+    "price":  52000,
     "image_link": "https://www.ford.com/mustangs/mach-e/models"
   },
   {
@@ -620,7 +620,7 @@
     "engine_type": "petrol",
     "car_type": "Full-size SUV",
     "year": 2024,
-    "price": "55,000 USD",
+    "price":  55000,
     "image_link": "https://www.ford.com/SUVs/expedition/"
   },
   {
@@ -633,7 +633,7 @@
     "engine_type": "electric",
     "car_type": "SUV",
     "year": 2024,
-    "price": "84,000 USD",
+    "price":  84000,
     "image_link": "https://www.bmwusa.com/vehicles/electric-vehicles/ix-electric-suv"
   },
   {
@@ -646,7 +646,7 @@
     "engine_type": "electric",
     "car_type": "SUV",
     "year": 2023,
-    "price": "90,000 USD",
+    "price":  90000,
     "image_link": "https://www.tesla.com/modelx"
   },
   {
@@ -659,7 +659,7 @@
     "engine_type": "electric",
     "car_type": "Luxury Sedan",
     "year": 2024,
-    "price": "95,000 USD",
+    "price":  95000,
     "image_link": "https://www.tesla.com/models/models"
   }
  ]
