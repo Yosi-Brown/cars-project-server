@@ -2,11 +2,13 @@ const multer = require("multer");
 
 const fileFilter = (req, file, cb) => {
   if (
+    // console.log('photo comming'),
     file.mimetype === "image/jpeg" ||
     file.mimetype === "image/jpg" ||
     file.mimetype === "image/png"
   ) {
     cb(null, true);
+    console.log("uploding")
   }
   cb(null, false);
 };
