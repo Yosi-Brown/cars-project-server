@@ -167,7 +167,7 @@ module.exports = {
 
     } catch (error) {
       console.log(error)
-      return res.status(200).json({
+      return res.status(500).json({
         message: "role note updated",
         success: false,
       })
