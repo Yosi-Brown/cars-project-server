@@ -58,6 +58,24 @@ module.exports = {
     }
   },
 
+  getProduct: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const product = await ProductModel.findById(id);
+      return res.status(200).json({
+        message: "successfully to get single product",
+        success: true,
+        product: product,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "not successfully to get single product",
+        error: error.message,
+        success: false,
+      });
+    }
+  },
+
   deleteProduct: async (req, res) => {
     try {
       const { id } = req.params;
