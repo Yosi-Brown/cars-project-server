@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
-const ordersModel = require("../model/orderModel");
+const OrderModel = require("../model/orderModel");
 
 module.exports = {
   getAllOrders: async (req, res) => {
     try {
-      const orders = await ordersModel
+      const orders = await OrderModel
         .find()
         .populate("user")
         .populate("products.product");
+        console.log(orders)
+        
       return res.status(200).json({
         message: "successfully to get all orders",
         success: true,
@@ -20,11 +22,14 @@ module.exports = {
         success: false,
       });
     }
+    finally{
+      
+    }
   },
 
   addOrder: async (req, res) => {
     try {
-      const order = ordersModel(req.body);
+      const order = OrderModel(req.body);
       console.log(order);
       await order.save();
       return res.status(200).json({
@@ -40,4 +45,47 @@ module.exports = {
       });
     }
   },
+
+  deleteOrder: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deletedOrder = await OrderModel.findByIdAndDelete(id);
+      // console.log(deletedOrder)
+
+      if (!deletedOrder) {
+        throw new Error("Order not found");
+      }
+
+      return res.status(200).json({
+        message: "Order deleted successfully",
+        success: true,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to delete Order",
+        error: error.message,
+        success: false,
+      });
+    }
+  },
+
+  updateStatus: async (req, res) =>{
+    try {
+      const {id, newStatus:status } = (req.body)
+      // console.log(status)
+      const updateRole = await OrderModel.findByIdAndUpdate(id, {status})
+      // console.log(updateRole)
+      return res.status(200).json({
+        message: "Status updated successfully",
+        success: true,
+      })
+
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({
+        message: "Status note updated",
+        success: false,
+      })
+    }
+  }
 };
