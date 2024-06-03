@@ -8,7 +8,7 @@ module.exports = {
         .find()
         .populate("user")
         .populate("products.product");
-        console.log(orders)
+        // console.log(orders)
         
       return res.status(200).json({
         message: "successfully to get all orders",

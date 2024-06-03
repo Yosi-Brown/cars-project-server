@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const UserModel = require("../model/userModel");
 const { hash, compare } = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { transporter } = require("../middleware/mailer");
 
 
 module.exports = {
@@ -85,6 +86,14 @@ module.exports = {
         //   if(!validToken)
         // }
       }
+      // transporter.sendMail({
+      //     from: process.env.MAILER_AUTH_USER_NAME,
+      //     to: email,
+      //     subject:"good yossi",
+      //     html:`<h1>hello yossi</h1>
+      //     <p>welcome to mego project we love you</p>`
+      // })
+
       return res.status(200).json({
         message: "successfully to login user",
         success: true,
@@ -172,5 +181,27 @@ module.exports = {
         success: false,
       })
     }
+  },
+
+  updateUser: async(req, res) =>{
+    try {
+      const { id } = req.params;
+      // const {id, newRole:role } = (req.body)
+      // console.log(role)
+      const updateUser = await UserModel.findByIdAndUpdate(id, req.body,{new:true})
+      // console.log(updateRole)
+      return res.status(200).json({
+        message: "user updated successfully",
+        success: true,
+        user: updateUser
+      })
+
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({
+        message: "user note updated",
+        success: false,
+      })
+    }
   }
-};
+}
