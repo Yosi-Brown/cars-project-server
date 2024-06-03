@@ -6,7 +6,8 @@ const {
   logOut,
   getAllUsers,
   deleteUser,
-  updateRole
+  updateRole,
+  updateUser
 } = require("../controller/userController");
 
 router.get("/auth", checkToken);
@@ -14,6 +15,7 @@ router.get("/logout", logOut);
 router.get("/getall", getAllUsers)
 router.delete("/delete/:id", deleteUser)
 router.put("/update-role", updateRole)
+router.put("/updateUser/:id", updateUser)
 
 
 router.post("/login", loginUser);
