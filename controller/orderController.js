@@ -22,9 +22,6 @@ module.exports = {
         success: false,
       });
     }
-    finally{
-      
-    }
   },
 
   addOrder: async (req, res) => {
@@ -71,9 +68,12 @@ module.exports = {
 
   updateStatus: async (req, res) =>{
     try {
-      const {id, newStatus:status } = (req.body)
+      console.log('test');
+      const { id } = req.params
+      // console.log(id)
+      const { newStatus } = (req.body)
       // console.log(status)
-      const updateRole = await OrderModel.findByIdAndUpdate(id, {status})
+      const updateRole = await OrderModel.findByIdAndUpdate(id, {status: newStatus})
       // console.log(updateRole)
       return res.status(200).json({
         message: "Status updated successfully",
