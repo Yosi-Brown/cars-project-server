@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   email:{
     type:String,
     required:true,
     match:/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-    // unique:true
+    unique:true
 },
 password:{
     type:String,
     required:true,
-    min:4
+    minlength:4
 },
 phone:{
     type: String,
@@ -34,11 +34,6 @@ role:{
     enum: ['regular', 'manager', 'admin'],
     default: 'regular'
 },
-
-// premission:{
-//     type:Number,
-//     default:1
-// },
 token:{type:Object,
   default:{}
 }

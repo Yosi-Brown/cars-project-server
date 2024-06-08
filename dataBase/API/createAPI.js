@@ -5,9 +5,10 @@ module.exports = {
   pushToDb: async (req, res) => {
     try {
       // const cars = require("./cars.json");
-      const cars = req.body
+      const cars = req.body;
       cars.forEach(async (car) => {
-        car.image_link = 'https://res.cloudinary.com/dokz0knrk/image/upload/v1716299631/ramjufxdpbceih9dxicj.png'
+        car.image_link =
+          "https://res.cloudinary.com/dokz0knrk/image/upload/v1716299631/ramjufxdpbceih9dxicj.png";
         const singleCar = ProductModel(car);
         await singleCar.save();
         // return res.status(200).json({
@@ -23,4 +24,40 @@ module.exports = {
       });
     }
   },
+  // updateYear: async (req, res) => {
+  //   try {
+  //     // מצא את כל המוצרים ותחליף את הערכים של `year` ממחרוזות למספרים
+  //     const products = await ProductModel.find({});
+
+  //     for (let product of products) {
+  //       if (typeof product.year === "string") {
+  //         console.log(`Before update: ${product.year}`);
+  //         product.year = parseInt(product.year, 10);
+  //         const updatedProduct = await product.save();
+  //         console.log(`After update: ${updatedProduct.year}`);
+  //       }
+  //     }
+
+  //     console.log("Updated all products successfully.");
+  //     res.status(200).send("Updated all products successfully.");
+  //   } catch (error) {
+  //     console.error("Error updating products:", error);
+  //     res.status(500).send("Error updating products.");
+  //   }
+  // },
+  updateYear: async (req, res) => {
+    try {
+      // עדכון כל המוצרים עם המרת year ממחרוזת למספר
+      await ProductModel.updateMany(
+        { year: { $type: "string" } },
+        [{ $set: { year: { $toInt: "$year" } } }]
+      );
+  
+      console.log("Updated all products successfully.");
+      res.status(200).send("Updated all products successfully.");
+    } catch (error) {
+      console.error("Error updating products:", error);
+      res.status(500).send("Error updating products.");
+    }
+  }
 };
