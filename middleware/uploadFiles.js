@@ -8,7 +8,7 @@ const fileFilter = (req, file, cb) => {
     file.mimetype === "image/png"
   ) {
     cb(null, true);
-    console.log("uploding")
+    console.log("uploading")
   }
   cb(null, false);
 };

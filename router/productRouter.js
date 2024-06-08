@@ -1,13 +1,13 @@
 const router = require("express").Router();
 const { addProduct, getAllProducts, deleteProduct, updateProduct, getProduct } = require("../controller/productController");
+const jwtAuth = require("../middleware/jwtAuth");
 const upload = require("../middleware/uploadFiles");
 
-router.post("/add", upload.single('image'), addProduct);
-router.get('/get-product/:id', getProduct)
 router.get('/getall', getAllProducts)
-router.delete('/delete/:id', deleteProduct);
-router.put('/update/:id', upload.single('image'), updateProduct);
-// router.put('/image-update', upload.single('image'), updateProduct);
+router.get('/get-product/:id', getProduct)
+router.post("/add", jwtAuth, upload.single('image'), addProduct);
+router.put('/update/:id', jwtAuth, upload.single('image'), updateProduct);
+router.delete('/delete/:id', jwtAuth, deleteProduct);
 
 
 module.exports = router;

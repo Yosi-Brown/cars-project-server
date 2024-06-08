@@ -9,13 +9,15 @@ const {
   updateRole,
   updateUser
 } = require("../controller/userController");
+const jwtAuth = require("../middleware/jwtAuth");
 
+
+router.get("/getall", getAllUsers)
 router.get("/auth", checkToken);
 router.get("/logout", logOut);
-router.get("/getall", getAllUsers)
-router.delete("/delete/:id", deleteUser)
-router.put("/update-role", updateRole)
-router.put("/updateUser/:id", updateUser)
+router.delete("/delete/:id", jwtAuth, deleteUser)
+router.put("/update-role/:id", jwtAuth, updateRole)
+router.put("/updateUser/:id", jwtAuth, updateUser)
 
 
 router.post("/login", loginUser);

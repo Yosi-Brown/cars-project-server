@@ -4,7 +4,6 @@ const { hash, compare } = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { transporter } = require("../middleware/mailer");
 
-
 module.exports = {
   checkToken: async (req, res) => {
     try {
@@ -30,24 +29,41 @@ module.exports = {
 
   registerUser: async (req, res) => {
     try {
-      console.log(req.body)
+      console.log(req.body);
       const { email, password, confirmPassword } = req.body;
       if (!email || !password) throw new Error("input not valid");
 
-      // if(password != confirmPassword) throw new Error('passwords is not compare')
+      if (password != confirmPassword)
+        throw new Error("passwords is not compare");
+
       const registerReq = UserModel(req.body);
-      console.log(registerReq)
+      console.log(registerReq);
       const hashPass = await hash(password, 10);
 
       registerReq.password = hashPass;
-      registerReq.role = "regular";
 
       await registerReq.save();
 
-      return res.status(200).json({
-        message: "New user registered",
-        success: true,
-      });
+      req.body = { email, password, newUser: true }; // הכנה של req.body להתחברות
+
+      const result = await module.exports.loginUser(req, res); // קריאה לפונקציית loginUser עם דגל מיוחד
+
+      if (result.success) {
+        return res.status(200).json({
+          message: "New user registered and logged in successfully",
+          success: true,
+        });
+      } else {
+        return res.status(500).json({
+          message: "Registration succeeded but login failed",
+          success: false,
+          error: result.error,
+        });
+      }
+      // return res.status(200).json({
+      //   message: "New user registered",
+      //   success: true,
+      // });
     } catch (error) {
       return res.status(500).json({
         message: "New user did not register successfully",
@@ -58,6 +74,7 @@ module.exports = {
   },
 
   loginUser: async (req, res) => {
+    // console.log(register);
     try {
       const { email, password } = req.body;
       if (!email || !password)
@@ -68,6 +85,7 @@ module.exports = {
 
       const match = await compare(password, loginUser.password);
       if (!match) throw new Error("Wrong password!!");
+      // console.log(match);
 
       if (!req.cookies.token) {
         const payload = { id: loginUser._id, role: loginUser.role };
@@ -78,13 +96,6 @@ module.exports = {
           maxAge: 1000 * 60 * 60 * 3,
           httpOnly: true,
         });
-        // else {
-        //   const validToken = jwt.verify(
-        //     req.cookies.token,
-        //     process.env.JWT_SECRET
-        //   );
-        //   if(!validToken)
-        // }
       }
       // transporter.sendMail({
       //     from: process.env.MAILER_AUTH_USER_NAME,
@@ -94,28 +105,50 @@ module.exports = {
       //     <p>welcome to mego project we love you</p>`
       // })
 
-      return res.status(200).json({
-        message: "successfully to login user",
-        success: true,
-      });
+      if (req.body.newUser) {
+        return { success: true }; // במקרה של קריאה פנימית, חזור אובייקט עם הצלחה
+      } else {
+        return res.status(200).json({
+          message: "Login successfully",
+          success: true,
+        });
+      }
     } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        message: "not successfully to login user",
-        success: false,
-        error: error.message,
-      });
+      if (req.body.newUser) {
+        return { success: false, error: error.message }; // במקרה של קריאה פנימית, חזור אובייקט עם שגיאה
+      } else {
+        return res.status(500).json({
+          message: "Login failed",
+          success: false,
+          error: error.message,
+        });
+      }
     }
   },
 
-  logOut: async(req,res) =>{
+  //     return res.status(200).json({
+  //       message: "Login successfully",
+  //       success: true,
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res.status(500).json({
+  //       message: "Login failed",
+  //       success: false,
+  //       error: error.message,
+  //     });
+  //   }
+  // },
+
+  logOut: async (req, res) => {
     try {
-      res.clearCookie('token')
+      res.clearCookie("token");
       return res.status(200).json({
-        message: "Token cleared",
-        success: true,})
+        message: "Logout successfully",
+        success: true,
+      });
     } catch (error) {
-      console.log('Token not cleared')
+      console.log("Logout failed");
       return res.status(500).json({
         message: error.message,
         success: false,
@@ -123,38 +156,39 @@ module.exports = {
     }
   },
 
-  getAllUsers: async(req,res) =>{
+  getAllUsers: async (req, res) => {
     try {
-      const users = await UserModel.find()
+      const users = await UserModel.find();
       return res.status(200).json({
         message: "successfully to get all Users",
         success: true,
-        users: users
+        users: users,
       });
     } catch (error) {
       return res.status(500).json({
         message: "not successfully to get all Users",
         error: error.message,
         success: false,
-      })
+      });
     }
   },
 
-  deleteUser: async(req, res) => {
+  deleteUser: async (req, res) => {
     try {
       const { id } = req.params;
       const deleteUser = await UserModel.findByIdAndDelete(id);
-      console.log(deleteUser)
+      // console.log(deleteUser)
 
-      if (!deleteUser) {throw new Error("User not found")}
-
+      if (!deleteUser) {
+        throw new Error("User not found");
+      }
 
       return res.status(200).json({
         message: "User deleted successfully",
         success: true,
       });
     } catch (error) {
-      console.log('test',id)
+      console.log("test", id);
       return res.status(500).json({
         message: "Failed to delete User",
         error: error.message,
@@ -163,45 +197,46 @@ module.exports = {
     }
   },
 
-  updateRole: async(req, res) =>{
+  updateRole: async (req, res) => {
     try {
-      const {id, newRole:role } = (req.body)
-      console.log(role)
-      const updateRole = await UserModel.findByIdAndUpdate(id, {role})
+      const { newRole } = req.body;
+      const { id } = req.params
+      console.log(newRole);
+      const updateRole = await UserModel.findByIdAndUpdate(id, {role:newRole});
       // console.log(updateRole)
       return res.status(200).json({
         message: "role updated successfully",
         success: true,
-      })
-
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).json({
         message: "role note updated",
         success: false,
-      })
+      });
     }
   },
 
-  updateUser: async(req, res) =>{
+  updateUser: async (req, res) => {
     try {
       const { id } = req.params;
       // const {id, newRole:role } = (req.body)
       // console.log(role)
-      const updateUser = await UserModel.findByIdAndUpdate(id, req.body,{new:true})
+      const updateUser = await UserModel.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
       // console.log(updateRole)
       return res.status(200).json({
         message: "user updated successfully",
         success: true,
-        user: updateUser
-      })
-
+        user: updateUser,
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).json({
         message: "user note updated",
         success: false,
-      })
+      });
     }
-  }
-}
+  },
+};

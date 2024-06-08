@@ -43,6 +43,7 @@ module.exports = {
 
   getAllProducts: async (req, res) => {
     try {
+      // console.log(req.role)
       const products = await ProductModel.find();
       return res.status(200).json({
         message: "successfully to get all products",
@@ -83,7 +84,7 @@ module.exports = {
       // console.log(deletedProduct)
 
       if (!deletedProduct) {
-        throw new Error("Product not found");
+        throw new Error ("Product not found");
       }
 
       return res.status(200).json({
