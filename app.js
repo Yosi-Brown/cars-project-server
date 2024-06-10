@@ -24,15 +24,18 @@ app.use(
 const userRouter = require("./router/userRouter");
 const productRouter = require("./router/productRouter");
 const ordersRouter = require("./router/orderRouter");
+const categoriesRouter = require("./router/categoriesRouter")
 
-// const { pushToDb,updateYear } = require("./dataBase/API/createAPI");
+const { pushToDb,updateYear,addCategory } = require("./dataBase/API/createAPI");
 
 
 app.use("/users", userRouter);
 app.use("/products", productRouter);
-app.use("/orders", ordersRouter)
-// app.use("/pushAPI", pushToDb); חד פעמי
-// app.use("/updateYear", updateYear); חד פעמי
+app.use("/orders", ordersRouter);
+app.use("/categories", categoriesRouter)
+// app.use("/pushAPI", pushToDb);// חד פעמי
+// app.use("/updateYear", updateYear);// חד פעמי
+app.use("/addCategory", addCategory);// חד פעמי
 
 const port = process.env.PORT;
 

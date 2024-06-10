@@ -49,8 +49,13 @@ const productSchema = mongoose.Schema({
     image_link: {
       type: String,
       // required: true,
+    },
+    category: {
+      ref: "Categories",
+      type: mongoose.Types.ObjectId,
+      required: true,
     }
 },{timestamps:true})
 
 
-module.exports = mongoose.model('Products',productSchema)
+module.exports = mongoose.model('cars',productSchema)

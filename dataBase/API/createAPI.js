@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const ProductModel = require("../../model/productModel");
+const { addCategory } = require("../../controller/categoriesController");
 
 module.exports = {
   pushToDb: async (req, res) => {
@@ -48,16 +49,37 @@ module.exports = {
   updateYear: async (req, res) => {
     try {
       // עדכון כל המוצרים עם המרת year ממחרוזת למספר
-      await ProductModel.updateMany(
-        { year: { $type: "string" } },
-        [{ $set: { year: { $toInt: "$year" } } }]
-      );
-  
+      await ProductModel.updateMany({ year: { $type: "string" } }, [
+        { $set: { year: { $toInt: "$year" } } },
+      ]);
+
       console.log("Updated all products successfully.");
       res.status(200).send("Updated all products successfully.");
     } catch (error) {
       console.error("Error updating products:", error);
       res.status(500).send("Error updating products.");
     }
-  }
+  },
+  addCategory: async (req, res) => {
+    try {
+      const products = await ProductModel.updateMany(
+        {},
+        { $set: { category: "6666c226e774788d8007b470" } }
+      );
+      console.log(
+        `${products.nModified} products have been updated with the new category`
+      );
+
+      res
+        .status(200)
+        .json({
+          message: `${products.nModified} products have been updated with the new category`,
+        });
+    } catch (error) {
+      console.error("Error updating products", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while updating the products" });
+    }
+  },
 };

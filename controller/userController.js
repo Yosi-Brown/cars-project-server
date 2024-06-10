@@ -29,20 +29,21 @@ module.exports = {
 
   registerUser: async (req, res) => {
     try {
-      console.log(req.body);
+      // console.log(req.body);
       const { email, password, confirmPassword } = req.body;
       if (!email || !password) throw new Error("input not valid");
 
       if (password != confirmPassword)
         throw new Error("passwords is not compare");
 
-      const registerReq = UserModel(req.body);
-      console.log(registerReq);
+      const registerReq = new UserModel(req.body);
+      // console.log(registerReq);
       const hashPass = await hash(password, 10);
 
       registerReq.password = hashPass;
 
-      await registerReq.save();
+      const test = await registerReq.save();
+      // console.log(test)
 
       req.body = { email, password, newUser: true }; // הכנה של req.body להתחברות
 
@@ -60,16 +61,20 @@ module.exports = {
           error: result.error,
         });
       }
-      // return res.status(200).json({
-      //   message: "New user registered",
-      //   success: true,
-      // });
     } catch (error) {
-      return res.status(500).json({
-        message: "New user did not register successfully",
-        success: false,
-        error: error.message,
-      });
+      if (error.code === 11000) {
+        return res.status(500).json({
+          message: "Email already exists!",
+          success: false,
+          error: error.message,
+        });
+      } else {
+        return res.status(500).json({
+          message: "New user did not register successfully",
+          success: false,
+          error: error.message,
+        });
+      }
     }
   },
 
@@ -125,20 +130,6 @@ module.exports = {
       }
     }
   },
-
-  //     return res.status(200).json({
-  //       message: "Login successfully",
-  //       success: true,
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //     return res.status(500).json({
-  //       message: "Login failed",
-  //       success: false,
-  //       error: error.message,
-  //     });
-  //   }
-  // },
 
   logOut: async (req, res) => {
     try {
@@ -200,9 +191,11 @@ module.exports = {
   updateRole: async (req, res) => {
     try {
       const { newRole } = req.body;
-      const { id } = req.params
+      const { id } = req.params;
       console.log(newRole);
-      const updateRole = await UserModel.findByIdAndUpdate(id, {role:newRole});
+      const updateRole = await UserModel.findByIdAndUpdate(id, {
+        role: newRole,
+      });
       // console.log(updateRole)
       return res.status(200).json({
         message: "role updated successfully",
