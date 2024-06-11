@@ -53,6 +53,7 @@ module.exports = {
         return res.status(200).json({
           message: "New user registered and logged in successfully",
           success: true,
+          user: registerReq,
         });
       } else {
         return res.status(500).json({
@@ -116,6 +117,7 @@ module.exports = {
         return res.status(200).json({
           message: "Login successfully",
           success: true,
+          user: loginUser,
         });
       }
     } catch (error) {
@@ -228,6 +230,43 @@ module.exports = {
       console.log(error);
       return res.status(500).json({
         message: "user note updated",
+        success: false,
+      });
+    }
+  },
+
+  updateProfile: async (req, res) => {
+    try {
+      const { id } = req.params;
+      // console.log(id);
+      const profile = req.body;
+      // console.log('profile',profile);
+
+      if (profile.newPassword) {
+        const hashPass = await hash(profile.newPassword, 10);
+        profile.password = hashPass;
+        delete profile.newPassword;
+      }
+      const newProfile = {};
+      for (const key in profile) {
+        if (profile[key]) {
+          // לבדוק אם הערך לא ריק
+          newProfile[key] = profile[key];
+        }
+      }
+      // console.log('newProfile', newProfile);
+
+      const updateUser = await UserModel.findByIdAndUpdate(id, newProfile, { new: true });
+
+      return res.status(200).json({
+        message: "Profile updated successfully",
+        success: true,
+        user: updateUser,
+      });
+    } catch (error) {
+      // console.log(error);
+      return res.status(500).json({
+        message: "Profile note updated",
         success: false,
       });
     }
