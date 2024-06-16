@@ -1,11 +1,15 @@
 const router = require("express").Router();
-const { addCategory, getAllCategories, getByCategory } = require("../controller/categoriesController")
+const { addCategory, getAllCategories, getByCategory, deleteCategory, editCategory } = require("../controller/categoriesController");
+const jwtAuth = require("../middleware/jwtAuth");
 
-
-router.get('/getAllCategories', getAllCategories)
-router.post('/addCategory', addCategory)
-// router.get('/getByCategory:category-id', getByCategory)
+router.get('/getall', getAllCategories)
+router.post('/add', addCategory)
 router.get('/getByCategory/:id', getByCategory)
+router.delete('/delete/:id', jwtAuth, deleteCategory);
+router.put('/edit/:id', jwtAuth, editCategory);
+
+
+// router.get('/getByCategory:category-id', getByCategory)
 
 
 
