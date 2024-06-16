@@ -22,9 +22,10 @@ module.exports = {
 
   addCategory: async (req, res) => {
     try {
-      const category = req.body;
-      const data = new CategoryModel(category);
-      console.log(data);
+      const { categoryName } = req.body;
+      console.log('newCategory', req.body);
+      const data = new CategoryModel({ name: categoryName });
+      // console.log("data");
       await data.save();
 
       return res.status(200).json({
@@ -41,26 +42,6 @@ module.exports = {
     }
   },
 
-  // getByCategory: async (req, res) => {
-  //   console.log("test")
-  //   try {
-  //     const { id } = req.params;
-  //     console.log(id);
-  //     const product = await CategoryModel.findById(id).populate("cars");
-  //     console.log(product);
-  //     return res.status(200).json({
-  //       message: "successfully to get single product",
-  //       success: true,
-  //       product: product,
-  //     });
-  //   } catch (error) {
-  //     return res.status(500).json({
-  //       message: "not successfully to get single product",
-  //       error: error.message,
-  //       success: false,
-  //     });
-  //   }
-  // },
   getByCategory: async (req, res) => {
     try {
       const { id } = req.params;
@@ -84,6 +65,55 @@ module.exports = {
         success: false,
       });
     }
-  }
+  },
+
+  deleteCategory: async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log(id);
+      const deletedCategory = await CategoryModel.findByIdAndDelete(id);
+      console.log(deletedCategory)
+
+      if (!deletedCategory) {
+        throw new Error ("Category not found");
+      }
+
+      return res.status(200).json({
+        message: "Category deleted successfully",
+        success: true,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to delete Category",
+        error: error.message,
+        success: false,
+      });
+    }
+  },
+
+  editCategory: async (req, res) => {
+    try {
+      
+      const { id } = req.params;
+      // console.log(id);
+      const { categoryName } = req.body;
+      console.log(categoryName);
+      const updatedCategory = await CategoryModel.findByIdAndUpdate(id, {name: categoryName});
+      console.log(updatedCategory)
+      if (!updatedCategory) throw new Error('Category not found')
+
+      return res.status(200).json({
+        success: true,
+        message: "Category updated successfully",
+        // product: updatedProduct
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to update Category",
+        error: error.message,
+      });
+    }
+  },
   
 };
