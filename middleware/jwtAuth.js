@@ -15,6 +15,7 @@ const jwtAuth = async (req, res, next) => {
     if (!validToken) throw new Error("token is not valid");
 
     const payload =  { id: validToken.id, role: validToken.role };
+    
     req.role = payload.role
     // console.log(payload);
     const newToken = jwt.sign(payload, process.env.JWT_SECRET, {
