@@ -167,6 +167,7 @@ module.exports = {
   },
 
   deleteUser: async (req, res) => {
+    // console.log(req.role);
     try {
       const { id } = req.params;
       const deleteUser = await UserModel.findByIdAndDelete(id);
@@ -194,7 +195,7 @@ module.exports = {
     try {
       const { newRole } = req.body;
       const { id } = req.params;
-      console.log(newRole);
+      // console.log(newRole);
       const updateRole = await UserModel.findByIdAndUpdate(id, {
         role: newRole,
       });
@@ -213,6 +214,7 @@ module.exports = {
   },
 
   updateUser: async (req, res) => {
+    // console.log(req.role);
     try {
       const { id } = req.params;
       // const {id, newRole:role } = (req.body)
