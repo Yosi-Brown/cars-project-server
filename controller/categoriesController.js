@@ -45,12 +45,12 @@ module.exports = {
   getByCategory: async (req, res) => {
     try {
       const { id } = req.params;
-      console.log("Category ID:", id);
+      // console.log("Category ID:", id);
   
       // מציאת מוצרים לפי ה-ObjectId של הקטגוריה ושימוש ב-populate לטעינת מידע הקטגוריה
       const products = await ProductModel.find({ category: id }).populate("category");
   
-      console.log("Products found:", products);
+      // console.log("Products found:", products);
       
       return res.status(200).json({
         message: "Successfully fetched products by category",
