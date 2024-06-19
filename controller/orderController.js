@@ -4,12 +4,14 @@ const OrderModel = require("../model/orderModel");
 module.exports = {
   getAllOrders: async (req, res) => {
     try {
-      const orders = await OrderModel
-        .find()
+      const orders = await OrderModel.find()
         .populate("user")
-        .populate("products.product");
-        // console.log(orders)
-        
+        .populate({
+          path: "products.product",
+          populate: { path: "category"},
+        });
+      // console.log(orders)
+
       return res.status(200).json({
         message: "successfully to get all orders",
         success: true,
@@ -66,26 +68,27 @@ module.exports = {
     }
   },
 
-  updateStatus: async (req, res) =>{
+  updateStatus: async (req, res) => {
     try {
-      console.log('test');
-      const { id } = req.params
+      console.log("test");
+      const { id } = req.params;
       // console.log(id)
-      const { newStatus } = (req.body)
+      const { newStatus } = req.body;
       // console.log(status)
-      const updateRole = await OrderModel.findByIdAndUpdate(id, {status: newStatus})
+      const updateRole = await OrderModel.findByIdAndUpdate(id, {
+        status: newStatus,
+      });
       // console.log(updateRole)
       return res.status(200).json({
         message: "Status updated successfully",
         success: true,
-      })
-
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).json({
         message: "Status note updated",
         success: false,
-      })
+      });
     }
-  }
+  },
 };
