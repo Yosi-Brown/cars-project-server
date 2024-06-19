@@ -44,7 +44,7 @@ module.exports = {
   getAllProducts: async (req, res) => {
     try {
       // console.log(req.role)
-      const products = await ProductModel.find();
+      const products = await ProductModel.find().populate('category');
       return res.status(200).json({
         message: "successfully to get all products",
         success: true,
@@ -62,7 +62,7 @@ module.exports = {
   getProduct: async (req, res) => {
     try {
       const { id } = req.params;
-      const product = await ProductModel.findById(id);
+      const product = await ProductModel.findById(id).populate('category');
       return res.status(200).json({
         message: "successfully to get single product",
         success: true,
