@@ -8,7 +8,7 @@ module.exports = {
         .populate("user")
         .populate({
           path: "products.product",
-          populate: { path: "category"},
+          populate: {path: "category"},
         });
       // console.log(orders)
 

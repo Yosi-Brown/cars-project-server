@@ -8,7 +8,9 @@ const {
   deleteUser,
   updateRole,
   updateUser,
-  updateProfile
+  updateProfile,
+  forgotPassword,
+  changePassword
 } = require("../controller/userController");
 const jwtAuth = require("../middleware/jwtAuth");
 
@@ -24,5 +26,7 @@ router.put("/updateProfile/:id", jwtAuth, updateProfile)
 
 router.post("/login", loginUser);
 router.post("/register", registerUser);
+router.post("/forgotPassword", forgotPassword);
+router.post("/changePassword", changePassword);
 
 module.exports = router;
