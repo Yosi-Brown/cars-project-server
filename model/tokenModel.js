@@ -10,13 +10,13 @@ const tokenSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  // createdAt: {
-  //   type: Date,
-  //   expires: 60,
-  //   default: Date.now,
-  //   // expires: 3600
-  // }
+  createdAt: {
+    type: Date,
+    expires: 60 * 15,
+    default: Date.now,
+   
+  }
 }, {timestamps: true});
-tokenSchema.index({createdAt: 1},{expireAfterSeconds: 60});
+tokenSchema.index({createdAt: 1},{expireAfterSeconds: 60 * 15});
 
 module.exports = mongoose.model('Tokens', tokenSchema);
