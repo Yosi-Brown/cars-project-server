@@ -3,6 +3,10 @@ const UserModel = require("../model/userModel");
 const { hash, compare } = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { transporter } = require("../middleware/mailer");
+const crypto = require("crypto");
+const TokenModel = require("../model/tokenModel");
+const userModel = require("../model/userModel");
+const e = require("cors");
 
 module.exports = {
   checkToken: async (req, res) => {
@@ -42,7 +46,8 @@ module.exports = {
 
       registerReq.password = hashPass;
 
-      const test = await registerReq.save();
+      await registerReq.save();
+      // const test = await registerReq.save();
       // console.log(test)
 
       req.body = { email, password, newUser: true }; // הכנה של req.body להתחברות
@@ -258,7 +263,9 @@ module.exports = {
       }
       // console.log('newProfile', newProfile);
 
-      const updateUser = await UserModel.findByIdAndUpdate(id, newProfile, { new: true });
+      const updateUser = await UserModel.findByIdAndUpdate(id, newProfile, {
+        new: true,
+      });
 
       return res.status(200).json({
         message: "Profile updated successfully",
@@ -270,6 +277,91 @@ module.exports = {
       return res.status(500).json({
         message: "Profile note updated",
         success: false,
+      });
+    }
+  },
+
+  forgotPassword: async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) throw new Error("input not valid");
+      // console.log(email);
+
+      const user = await UserModel.findOne({ email });
+      if (!user) throw new Error("user is not exists");
+
+      const resetToken = crypto.randomBytes(32).toString("hex");
+      // console.log(resetToken);
+
+      const hashToken = await hash(resetToken, 10);
+      // console.log(hashToken);
+
+      const oldToken = await TokenModel.findOne({ userId: user._id })
+      // console.log(oldToken);
+      if(oldToken){
+        await oldToken.deleteOne();
+      }
+
+      await new TokenModel({
+        userId: user._id,
+        token: hashToken,
+        // createdAt: Date.now(), // לבדוק מה הסיפור עם התפוגה
+      }).save();
+      // console.log(user);
+
+      await transporter.sendMail({
+        from: process.env.MAILER_AUTH_USER_NAME,
+        to: user.email,
+        subject: "Reset Password",
+        html: `<a href="http://localhost:5173/changePassword?token=${resetToken}&uid=${user._id}">To reset password click me</a>`,
+      });
+
+      return res.status(200).json({
+        message: "successfully to send email",
+        success: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  changePassword: async (req, res) => {
+    try {
+      // console.log(req.body);
+      const { id, token, password, confirmPassword } = req.body;
+      if (!password || !confirmPassword) throw new Error("input not valid");
+
+      if (password != confirmPassword)
+        throw new Error("passwords is not compare");
+      const tempToken = await TokenModel.findOne({ userId: id });
+      if (!tempToken) throw new Error("Invalid or expired token");
+      
+      const isValid = await compare(token, tempToken.token);
+      if (!isValid) throw new Error("Invalid or expired token");
+      
+      const hashPass = await hash(password, 10);
+      
+      const user = await userModel.findByIdAndUpdate(
+        id,
+        {
+          password: hashPass,
+        },
+        { new: true }
+      );
+      
+      await tempToken.deleteOne();
+      console.log("test");
+
+      return res.status(200).json({
+        message: "Password updated successfully",
+        success: true,
+        user,
+      });
+    } catch (error) {
+      return res.status(401).json({
+        message: "not authorization",
+        success: false,
+        error: error.message,
       });
     }
   },
