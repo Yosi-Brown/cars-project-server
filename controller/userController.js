@@ -6,7 +6,7 @@ const { transporter } = require("../middleware/mailer");
 const crypto = require("crypto");
 const TokenModel = require("../model/tokenModel");
 const userModel = require("../model/userModel");
-const e = require("cors");
+const eCommerceUrl = process.env.E_COMMERCE_URL;
 
 module.exports = {
   checkToken: async (req, res) => {
@@ -296,9 +296,9 @@ module.exports = {
       const hashToken = await hash(resetToken, 10);
       // console.log(hashToken);
 
-      const oldToken = await TokenModel.findOne({ userId: user._id })
+      const oldToken = await TokenModel.findOne({ userId: user._id });
       // console.log(oldToken);
-      if(oldToken){
+      if (oldToken) {
         await oldToken.deleteOne();
       }
 
@@ -313,7 +313,7 @@ module.exports = {
         from: process.env.MAILER_AUTH_USER_NAME,
         to: user.email,
         subject: "Reset Password",
-        html: `<a href="http://localhost:5173/changePassword?token=${resetToken}&uid=${user._id}">To reset password click me</a>`,
+        html: `<a href="${eCommerceUrl}/changePassword?token=${resetToken}&uid=${user._id}">To reset password click me</a>`,
       });
 
       return res.status(200).json({
@@ -325,7 +325,7 @@ module.exports = {
     }
   },
 
-  changePassword: async (req, res) => {
+  resetPassword: async (req, res) => {
     try {
       // console.log(req.body);
       const { id, token, password, confirmPassword } = req.body;
@@ -335,12 +335,12 @@ module.exports = {
         throw new Error("passwords is not compare");
       const tempToken = await TokenModel.findOne({ userId: id });
       if (!tempToken) throw new Error("Invalid or expired token");
-      
+
       const isValid = await compare(token, tempToken.token);
       if (!isValid) throw new Error("Invalid or expired token");
-      
+
       const hashPass = await hash(password, 10);
-      
+
       const user = await userModel.findByIdAndUpdate(
         id,
         {
@@ -348,7 +348,7 @@ module.exports = {
         },
         { new: true }
       );
-      
+
       await tempToken.deleteOne();
       console.log("test");
 
@@ -360,6 +360,42 @@ module.exports = {
     } catch (error) {
       return res.status(401).json({
         message: "not authorization",
+        success: false,
+        error: error.message,
+      });
+    }
+  },
+
+  changePassword: async (req, res) => {
+    // console.log('work');
+    try {
+      const { id } = req.params;
+      const { oldPassword, password, confirmPassword } = req.body;
+
+      if ((!oldPassword, !password || !confirmPassword))
+        throw new Error("input not valid");
+
+      if (password != confirmPassword)
+        throw new Error("new passwords is not compare");
+
+      const user = await userModel.findById(id);
+
+      if (!user) throw new Error("user not exists");
+
+      const hashPass = await hash(password, 10);
+
+      user.password = hashPass;
+
+      await user.save();
+
+      return res.status(200).json({
+        message: "Password updated successfully",
+        success: true,
+        user,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Password not updated",
         success: false,
         error: error.message,
       });
