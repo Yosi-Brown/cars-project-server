@@ -10,11 +10,11 @@ const userSchema = mongoose.Schema({
 password:{
     type:String,
     required:true,
-    minlength:4
+    // minlength:4
 },
 phone:{
     type: String,
-    required: true,
+    // required: true,
     match: /^05[0-9]-?[0-9]{7}$/
 },
 firstName:{
@@ -27,18 +27,14 @@ lastName:{
 },
 address:{
   type:String,
-  required:true
+  // required:true
 },
 role:{
     type:String,
     enum: ['regular', 'manager', 'admin'],
     default: 'regular'
 },
-token:{type:Object,
-  default:{}
-}
-},
-{timestamps:true})
+},{timestamps:true})
 
 
 module.exports = mongoose.model("Users",userSchema)
