@@ -49,6 +49,7 @@ module.exports = {
   
       // מציאת מוצרים לפי ה-ObjectId של הקטגוריה ושימוש ב-populate לטעינת מידע הקטגוריה
       const products = await ProductModel.find({ category: id }).populate("category");
+      // const products = await CategoryModel.find({ name: id }).populate("");
   
       // console.log("Products found:", products);
       
