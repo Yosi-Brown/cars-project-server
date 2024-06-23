@@ -26,12 +26,6 @@ const jwtAuth = async (req, res, next) => {
       maxAge: 1000 * 60 * 60 * 3,
       httpOnly: true,
     });
-
-    
-    // return res.status(200).json({
-      //   message: "You have a valid token",
-      //   success: true,
-      // });
       next();
   } catch (error) {
     return res.status(401).json({
