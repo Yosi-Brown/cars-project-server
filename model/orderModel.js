@@ -8,6 +8,10 @@ const orderSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: true,
     },
+    orderNum: {
+      type: Number,
+      required: true
+    },
     totalPrice: {
       type: Number,
       min: 1,

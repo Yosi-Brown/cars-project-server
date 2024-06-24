@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const ProductModel = require("../../model/productModel");
 const { addCategory } = require("../../controller/categoriesController");
 const CategoryModel = require("../../model/categoryModel");
+const OrderNum = require('../../model/orderNumModel')
 
 
 module.exports = {
@@ -313,5 +314,24 @@ module.exports = {
     //     console.error("Error updating categories", error);
     //     res.status(500).json({ error: "An error occurred while updating the categories" });
     // }
+  },
+  orderNum: async (req, res) => {
+    try {
+      const newOrderNum = new OrderNum({ orderNum: 10000 }); // Create a new instance of OrderNum
+      await newOrderNum.save(); // Save the new instance to the database
+  
+      return res.status(200).json({
+        message: 'OrderNum created successfully',
+        success: true,
+        orderNum: newOrderNum,
+      });
+    } catch (error) {
+      console.error('Error creating OrderNum:', error.message);
+      return res.status(500).json({
+        message: 'Failed to create OrderNum',
+        error: error.message,
+        success: false,
+      });
+    }
   }
 };

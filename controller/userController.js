@@ -7,7 +7,8 @@ const crypto = require("crypto");
 const TokenModel = require("../model/tokenModel");
 const userModel = require("../model/userModel");
 const eCommerceUrl = process.env.E_COMMERCE_URL;
-// const resetMail = require('../templates/resetMail.html')
+const {resetEmailHtml} = require('../templates/resetMail')
+
 
 module.exports = {
   checkToken: async (req, res) => {
@@ -309,13 +310,15 @@ module.exports = {
         // createdAt: Date.now(), // לבדוק מה הסיפור עם התפוגה
       }).save();
       // console.log(user);
+      console.log(resetEmailHtml);
       const urlReset = `${eCommerceUrl}/changePassword?token=${resetToken}&uid=${user._id}` 
       await transporter.sendMail({
         from: process.env.MAILER_AUTH_USER_NAME,
         to: user.email,
         subject: "Reset Password",
-        // html: resetMail
-        html: `<a href="${eCommerceUrl}/changePassword?token=${resetToken}&uid=${user._id}">To reset password click me</a>`,
+        // html: resetEmailHtml
+        // html: `<a href="${eCommerceUrl}/changePassword?token=${resetToken}&uid=${user._id}">To reset password click me</a>`,
+        html: `<a href="${urlReset}">To reset password click me</a>`,
       });
 
       return res.status(200).json({
