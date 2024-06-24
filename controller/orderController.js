@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const OrderModel = require("../model/orderModel");
+const NumModel = require("../model/orderNumModel");
+
 
 module.exports = {
   getAllOrders: async (req, res) => {
@@ -8,7 +10,7 @@ module.exports = {
         .populate("user")
         .populate({
           path: "products.product",
-          populate: {path: "category"},
+          populate: { path: "category" },
         });
       // console.log(orders)
 
@@ -28,15 +30,30 @@ module.exports = {
 
   addOrder: async (req, res) => {
     try {
-      const order = OrderModel(req.body);
+      const { order } = req.body;
       console.log(order);
-      await order.save();
+      const numDoc  = await NumModel.findOne()
+      const orderNum = numDoc.orderNum + 1
+      // console.log(orderNum);
+      order.orderNum = orderNum
+
+      const newOrder = OrderModel(order);
+      
+      console.log(newOrder);
+      
+      await newOrder.save();
+
+      numDoc.orderNum = orderNum;
+      await numDoc.save();
+
+      // console.log("newOrder", newOrder);
       return res.status(200).json({
         message: "successfully to add order",
         success: true,
         order: order,
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         message: "not successfully to add order",
         error: error.message,
