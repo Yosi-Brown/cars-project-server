@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const OrderModel = require("../model/orderModel");
 const NumModel = require("../model/orderNumModel");
+const { orderMail } = require("../templates/emails");
 
 
 module.exports = {
@@ -31,7 +32,7 @@ module.exports = {
   addOrder: async (req, res) => {
     try {
       const { order } = req.body;
-      console.log(order);
+      // console.log(order);
       const numDoc  = await NumModel.findOne()
       const orderNum = numDoc.orderNum + 1
       // console.log(orderNum);
@@ -39,14 +40,19 @@ module.exports = {
 
       const newOrder = OrderModel(order);
       
-      console.log(newOrder);
       
       await newOrder.save();
-
+      
       numDoc.orderNum = orderNum;
       await numDoc.save();
+      
+      await newOrder.populate('user')
+      await newOrder.populate('products.product')
+      // .populate('products.product')
+      // console.log('test',newOrder.products[0]);
 
-      // console.log("newOrder", newOrder);
+      await orderMail(newOrder)
+  
       return res.status(200).json({
         message: "successfully to add order",
         success: true,
@@ -108,4 +114,44 @@ module.exports = {
       });
     }
   },
+  // addOrder: async (req, res) => {
+  //   try {
+  //     const { order } = req.body;
+  
+  //     // קבלת המספר הסדרתי הבא
+  //     const numDoc = await NumModel.findOne();
+  //     const orderNum = numDoc.orderNum + 1;
+  //     order.orderNum = orderNum;
+  
+  //     // יצירת מודל ההזמנה עם הפרטים הרלוונטיים
+  //     const newOrder = new OrderModel(order);
+  
+  //     // השתמש ב־populate כדי להחליף את ה־ObjectIds של המוצרים במידע ממודל המוצרים
+  //     await newOrder.populate('products.product');
+  
+  //     // שמירת ההזמנה במסד הנתונים
+  //     await newOrder.save();
+  
+  //     // עדכון המספר הסדרתי הבא במודל המספרים
+  //     numDoc.orderNum = orderNum;
+  //     await numDoc.save();
+  
+  //     // הדפסת ההזמנה לצורך בדיקה
+  //     console.log('New Order:', newOrder);
+  
+  //     return res.status(200).json({
+  //       message: "הזמנה נוספה בהצלחה",
+  //       success: true,
+  //       order: newOrder,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(500).json({
+  //       message: "יצירת ההזמנה נכשלה",
+  //       error: error.message,
+  //       success: false,
+  //     });
+  //   }
+  // },
+  
 };
