@@ -7,7 +7,7 @@ const crypto = require("crypto");
 const TokenModel = require("../model/tokenModel");
 const userModel = require("../model/userModel");
 const eCommerceUrl = process.env.E_COMMERCE_URL;
-const {resetEmailHtml} = require('../templates/resetMail')
+const { welcome, resetEmailHtml } = require('../templates/emails')
 
 
 module.exports = {
@@ -51,6 +51,9 @@ module.exports = {
       await registerReq.save();
       // const test = await registerReq.save();
       // console.log(test)
+      const name = registerReq?.firstName
+
+      await welcome(email, name)
 
       req.body = { email, password, newUser: true }; // הכנה של req.body להתחברות
 
@@ -307,19 +310,11 @@ module.exports = {
       await new TokenModel({
         userId: user._id,
         token: hashToken,
-        // createdAt: Date.now(), // לבדוק מה הסיפור עם התפוגה
       }).save();
-      // console.log(user);
-      console.log(resetEmailHtml);
+      
       const urlReset = `${eCommerceUrl}/changePassword?token=${resetToken}&uid=${user._id}` 
-      await transporter.sendMail({
-        from: process.env.MAILER_AUTH_USER_NAME,
-        to: user.email,
-        subject: "Reset Password",
-        // html: resetEmailHtml
-        // html: `<a href="${eCommerceUrl}/changePassword?token=${resetToken}&uid=${user._id}">To reset password click me</a>`,
-        html: `<a href="${urlReset}">To reset password click me</a>`,
-      });
+
+      await resetEmailHtml(email, urlReset)
 
       return res.status(200).json({
         message: "successfully to send email",
