@@ -215,7 +215,7 @@ module.exports = {
   },
   
   orderMail: async (order) => {
-    const items = order.products.map(item => `<li>${item.product.company}${item.product.model} - ${item.quantity} - ${item.product.price}</li>`).join(' ')
+    const items = order.products.map(item => `<li>${item.product.company}${item.product.model} - ${item.quantity} - $ ${item.product.price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</li>`).join(' ')
 
 
     const date = new Date().toLocaleDateString(undefined, {year: '2-digit',
@@ -339,7 +339,7 @@ module.exports = {
                             <li>[Item 2] - [Quantity] - [Price]</li>
                              Add more items as needed -->
                         </ul>
-                        <p><strong>Total:</strong> ${order.totalPrice}</p>
+                        <p><strong>Total: $</strong> ${order.totalPrice.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
                     </div>
                    <!-- לסדר בהמשך
                 <div class="button-container">
